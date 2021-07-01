@@ -13,22 +13,22 @@ public class StudentController {
 
 	public StudentController(){
 		String[] alexint = {"Sailing", "Walking"};
-		Student alex = new Student("Alex","Fazan",31,"Bristol", alexint, 0);
+		Student alex = new Student("Alex","Fazan",31,"Bristol", alexint, "0");
 		students.add(alex);
 		String[] willint = {"Music", "Art"};
-		Student will = new Student("Will","Irving",25,"Bristol", willint, 1);
+		Student will = new Student("Will","Irving",25,"Bristol", willint, "1");
 		students.add(will);
 		String[] mayint = {"Painting", "Coding"};
-		Student may = new Student("May","Chung",24,"Scotland", mayint, 2);
+		Student may = new Student("May","Chung",24,"Scotland", mayint, "2");
 		students.add(may);
 		String[] sakeenint = {"Memes", "Anime"};
-		Student sakeen = new Student("Sakeen","Zaman",23,"London", sakeenint, 3);
+		Student sakeen = new Student("Sakeen","Zaman",23,"London", sakeenint, "3");
 		students.add(sakeen);
 		String[] edint = {"Skiing", "Tennis"};
-		Student ed = new Student("Ed","Hughes",25,"London", edint, 4);
+		Student ed = new Student("Ed","Hughes",25,"London", edint, "4");
 		students.add(ed);
 		String[] clintint = {"Running", "Painting"};
-		Student clint = new Student("Clint","McTribouy-Koy",22,"London", clintint, 5);
+		Student clint = new Student("Clint","McTribouy-Koy",22,"London", clintint, "5");
 		students.add(clint);
 	}
 	//... we have no students
@@ -43,8 +43,12 @@ public class StudentController {
 	@GetMapping("/students/{studentId}")
 	@ResponseBody
 	public Student getStudent(@PathVariable String studentId){
-		int idAsInt = Integer.parseInt(studentId);
-		return this.students.get(idAsInt);
+		for (Student student : students){
+			if (studentId.equals(student.getId())){
+				return student;
+			}
+		}
+		return null;
 	}
 
 	@PostMapping("/students")
@@ -57,12 +61,12 @@ public class StudentController {
 		return student;
 	}
 
-	@DeleteMapping("/delete-student/{studentId}")
+	@DeleteMapping("/students/{studentId}")
 	public void deleteStudent(@PathVariable String studentId){
-		int idAsInt = Integer.parseInt(studentId);
-		this.students.remove(idAsInt);
-		for (Student s : students){
-			System.out.println(s.getFirstName());
+		for (Student student : students) {
+			if (studentId.equals(student.getId())) {
+				students.remove(student);
+			}
 		}
 	}
 

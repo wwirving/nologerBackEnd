@@ -7,9 +7,9 @@ public class Student {
 	private int age;
 	private String location;
 	private String[] interests;
-	private int id;
+	private String id;
 
-	public Student(String firstName, String lastName, int age, String location, String[] interests, int id) {
+	public Student(String firstName, String lastName, int age, String location, String[] interests, String id) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
@@ -18,11 +18,11 @@ public class Student {
 		this.id = id;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
