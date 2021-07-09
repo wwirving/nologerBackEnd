@@ -1,5 +1,7 @@
 package com.nology.nologer;
 
+import java.util.UUID;
+
 public class Student {
 
 	private String firstName;
@@ -9,13 +11,13 @@ public class Student {
 	private String[] interests;
 	private String id;
 
-	public Student(String firstName, String lastName, int age, String location, String[] interests, String id) {
+	public Student(String firstName, String lastName, int age, String location, String[] interests) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
 		this.location = location;
 		this.interests = interests;
-		this.id = id;
+		this.id = UUID.randomUUID().toString();
 	}
 
 	public String getId() {

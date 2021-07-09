@@ -1,6 +1,8 @@
 package com.nology.nologer;
 
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,41 +12,39 @@ import java.util.List;
 @RestController
 public class CourseController {
 
-	List<Course> courses = new ArrayList<Course>();
-
-	public CourseController(){
-		Course creativeCoding = new Course("CZ441","Creative Coding");
-		courses.add(creativeCoding);
-	}
+	public CourseRepository repository = new CourseRepository();
 
 	@GetMapping("/courses")
-	public List <Course> getCourses(){
-		return this.courses;
+	public ResponseEntity <Course> getCourses(){
+		return new ResponseEntity(this.repository.findAll(),  HttpStatus.OK);
 	}
 
-	@GetMapping("/courses/{courseId}")
-	@ResponseBody
-	public Course getCourse(@PathVariable String courseId){
-		for (Course course : courses){
-			if (courseId.equals(course.getCourseId())){
-				return course;
-			}
+	//get single course by ID
+	@GetMapping("/course/{courseId}")
+	public ResponseEntity getCourse(@PathVariable String courseId) {
+		Course course = this.repository.findById(courseId);
+
+		if (course != null){
+			return new ResponseEntity<>(course, HttpStatus.OK);
+		} else {
+			return new ResponseEntity(null, HttpStatus.NOT_FOUND);
 		}
-		return null;
 	}
 
 	@PostMapping("/courses")
 	public Course createCourse(@RequestBody Course course){
-		this.courses.add(course);
+		this.repository.courses.add(course);
 		return course;
 	}
 
 	@DeleteMapping("/courses/{courseId}")
-	public void deleteCourse(@PathVariable String courseId){
-		for (Course course : courses){
-			if (course.getCourseId().equals(courseId)){
-				this.courses.remove(course);
-			}
+	public ResponseEntity deleteCourse(@PathVariable String courseId){
+		boolean result = this.repository.deleteById(courseId);
+
+		if (result){
+			return new ResponseEntity("Success, course removed!", HttpStatus.OK);
+		} else {
+			return new ResponseEntity("Delete failed", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
